@@ -1,3 +1,4 @@
+hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 500
 server:
   port: 9090
 spring:
@@ -20,7 +21,10 @@ spring:
             - Path=/api/**
           filters:
             - RewritePath=/(?<path>.*), /$\{path}
-
+            - name: Hystrix
+            args:
+              name: hystrixFx
+              fallbackUri: forward:/fx-exchange/fallback
 management:
   endpoint:
     gateway:
@@ -30,3 +34,4 @@ management:
         include: gateway
 
 logging.level.org.springframework.cloud.consul: DEBUG
+
